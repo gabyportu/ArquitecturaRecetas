@@ -1,0 +1,14 @@
+server:
+  port: 8080
+spring:
+  datasoource:
+    url: jbdc:postgresql://localhost:5433//ArquiEjem
+    username: postgres
+    password: 13643389
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    database-plaform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+recetaApi:
+  url: https://api.spoonacular.com/recipes/findByIngredients
