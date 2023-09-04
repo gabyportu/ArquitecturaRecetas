@@ -23,9 +23,6 @@ public class Ingrediente implements Serializable {
     @Column(name = "nombre")
     private String nombre;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "ingredinteIdIngrediente", fetch = FetchType.LAZY)
-    private List<Receta> recetaList;
-
     public Ingrediente(){
     }
     public Ingrediente(Integer idIngrediente){
@@ -52,13 +49,6 @@ public class Ingrediente implements Serializable {
         this.nombre = nombre;
     }
 
-    public List<Receta> getRecetaList() {
-        return recetaList;
-    }
-
-    public void setRecetaList(List<Receta> recetaList) {
-        this.recetaList = recetaList;
-    }
 
     @Override
     public String toString() {

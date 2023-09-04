@@ -1,6 +1,9 @@
 package com.example.arquiBack.bl;
 
 import com.example.arquiBack.dao.*;
+import com.example.arquiBack.dto.IngredienteDto;
+import com.example.arquiBack.dto.RecetaDto;
+import com.example.arquiBack.repository.IngredienteRepository;
 import com.example.arquiBack.repository.RecetaRepository;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,36 +18,34 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.slf4j.Logger;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class RecetaBl {
-    private static final Logger logger = LoggerFactory.getLogger(RecetaBl.class);
-
-    @Autowired
     private RecetaRepository recetaRepository;
+    private IngredienteRepository ingredienteRepository;
 
-    @Value("${recetaApi.url}")
-    private String apiUrl;
-    private final RestTemplate restTemplate = new RestTemplate();
-
-    @Autowired
-    private RecetaDao recetaDao;
-    public Receta fetchAndSaveReceta(){
-        logger.debug("Obteniendo receta desde URL: {}", apiUrl);
-        ResponseEntity<Receta> responce = restTemplate.getForEntity(apiUrl, Receta.class);
-        if(responce.getStatusCode() == HttpStatus.OK){
-            Receta receta = responce.getBody();
-            logger.debug("Recetas recibidas: {}", receta);
-
-            recetaRepository.save(receta);
-            logger.info("Receta guardada en la base de datos.");
-            return receta;
-        }else{
-            logger.warn("Fallo para recuperar la receta desde la API. Respuesta: {}",responce.getStatusCodeValue());
-            throw new RuntimeException("Error al consumir la API");
-        }
+    public RecetaBl(RecetaRepository recetaRepository, IngredienteRepository ingredienteRepository) {
+        this.recetaRepository = recetaRepository;
+        this.ingredienteRepository = ingredienteRepository;
     }
-    public Page<Receta> findAllDogs(int pageNumber, int pageSize){
-        Pageable pageable = PageRequest.of(pageNumber, pageSize);
-        return recetaRepository.findAll(pageable);
+
+    public RecetaDto guardarReceta(RecetaDto recetaDto) {
+        List<IngredienteDto> receta = recetaDto.getMissedIngredients();
+        Receta rece = new Receta();
+        rece.setIdReceta(recetaDto.getId());
+        rece.setTitulo(recetaDto.getTitle());
+        List<Receta> listaReceta = new ArrayList<Receta>();
+        listaReceta.add(rece);
+        for (int i = 0; i < receta.size(); i++) {
+            Ingrediente ingre = new Ingrediente();
+            ingre.setNombre(receta.get(i).getName());
+            //ingre.setRecetaList(listaReceta);
+            ingre.setIdIngrediente(receta.get(i).getId());
+            ingredienteRepository.save(ingre);
+        }
+        recetaRepository.save(rece);
+        return recetaDto;
     }
 }

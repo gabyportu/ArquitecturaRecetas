@@ -2,56 +2,129 @@ package com.example.arquiBack.dto;
 
 import com.example.arquiBack.entity.Receta;
 
+import java.util.List;
+
 public class RecetaDto {
-    private int idReceta;
-    private String titulo;
-    private String ingrediente;
+    private int id;
+    private String title;
+    private String image;
+    private String imageType;
+    private int usedIngredientCount;
+    private int missedIngredientCount;
+    private List<IngredienteDto> missedIngredients;
+    private List<IngredienteDto> usedIngredients;
+    private List<IngredienteDto> unusedIngredients;
+    private int likes;
 
-    public RecetaDto(){
+    public RecetaDto() {
     }
 
-    public RecetaDto(int idReceta, String titulo, String ingrediente) {
-        this.idReceta = idReceta;
-        this.titulo = titulo;
-        this.ingrediente = ingrediente;
+    public RecetaDto(int id, String title, String image, String imageType, int usedIngredientCount, int missedIngredientCount, List<IngredienteDto> missedIngredients, List<IngredienteDto> usedIngredients, List<IngredienteDto> unusedIngredients, int likes) {
+        this.id = id;
+        this.title = title;
+        this.image = image;
+        this.imageType = imageType;
+        this.usedIngredientCount = usedIngredientCount;
+        this.missedIngredientCount = missedIngredientCount;
+        this.missedIngredients = missedIngredients;
+        this.usedIngredients = usedIngredients;
+        this.unusedIngredients = unusedIngredients;
+        this.likes = likes;
     }
 
-    public RecetaDto(Receta receta){
-        this.idReceta = receta.getIdReceta();
-        this.titulo = receta.getTitulo();
-        this.ingrediente = receta.getIngredienteIdIngrediente().getNombre();
+    public int getId() {
+        return id;
     }
 
-    public int getIdReceta() {
-        return idReceta;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public void setIdReceta(int idReceta) {
-        this.idReceta = idReceta;
+    public String getTitle() {
+        return title;
     }
 
-    public String getTitulo() {
-        return titulo;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
+    public String getImage() {
+        return image;
     }
 
-    public String getIngrediente() {
-        return ingrediente;
+    public void setImage(String image) {
+        this.image = image;
     }
 
-    public void setIngrediente(String ingrediente) {
-        this.ingrediente = ingrediente;
+    public String getImageType() {
+        return imageType;
+    }
+
+    public void setImageType(String imageType) {
+        this.imageType = imageType;
+    }
+
+    public int getUsedIngredientCount() {
+        return usedIngredientCount;
+    }
+
+    public void setUsedIngredientCount(int usedIngredientCount) {
+        this.usedIngredientCount = usedIngredientCount;
+    }
+
+    public int getMissedIngredientCount() {
+        return missedIngredientCount;
+    }
+
+    public void setMissedIngredientCount(int missedIngredientCount) {
+        this.missedIngredientCount = missedIngredientCount;
+    }
+
+    public List<IngredienteDto> getMissedIngredients() {
+        return missedIngredients;
+    }
+
+    public void setMissedIngredients(List<IngredienteDto> missedIngredients) {
+        this.missedIngredients = missedIngredients;
+    }
+
+    public List<IngredienteDto> getUsedIngredients() {
+        return usedIngredients;
+    }
+
+    public void setUsedIngredients(List<IngredienteDto> usedIngredients) {
+        this.usedIngredients = usedIngredients;
+    }
+
+    public List<IngredienteDto> getUnusedIngredients() {
+        return unusedIngredients;
+    }
+
+    public void setUnusedIngredients(List<IngredienteDto> unusedIngredients) {
+        this.unusedIngredients = unusedIngredients;
+    }
+
+    public int getLikes() {
+        return likes;
+    }
+
+    public void setLikes(int likes) {
+        this.likes = likes;
     }
 
     @Override
     public String toString() {
         return "RecetaDto{" +
-                "idReceta=" + idReceta +
-                ", titulo='" + titulo + '\'' +
-                ", ingrediente='" + ingrediente + '\'' +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", image='" + image + '\'' +
+                ", imageType='" + imageType + '\'' +
+                ", usedIngredientCount=" + usedIngredientCount +
+                ", missedIngredientCount=" + missedIngredientCount +
+                ", missedIngredients=" + missedIngredients +
+                ", usedIngredients=" + usedIngredients +
+                ", unusedIngredients=" + unusedIngredients +
+                ", likes=" + likes +
                 '}';
     }
 }
