@@ -3,22 +3,17 @@ package com.example.arquiBack.bl;
 import com.example.arquiBack.dao.*;
 import com.example.arquiBack.dto.IngredienteDto;
 import com.example.arquiBack.dto.RecetaDto;
+import com.example.arquiBack.entity.Ingrediente;
+import com.example.arquiBack.entity.Receta;
 import com.example.arquiBack.repository.IngredienteRepository;
 import com.example.arquiBack.repository.RecetaRepository;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import com.example.arquiBack.entity.*;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory; // Importar LoggerFactory
 import java.util.Optional;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +21,8 @@ import java.util.List;
 public class RecetaBl {
     private RecetaRepository recetaRepository;
     private IngredienteRepository ingredienteRepository;
+
+    private final Logger logger = LoggerFactory.getLogger(RecetaBl.class); // Crear un logger
 
     public RecetaBl(RecetaRepository recetaRepository, IngredienteRepository ingredienteRepository) {
         this.recetaRepository = recetaRepository;
@@ -47,6 +44,10 @@ public class RecetaBl {
             ingredienteRepository.save(ingre);
         }
         recetaRepository.save(rece);
+
+        // Registrar un mensaje informativo
+        logger.info("Receta guardada con éxito.");
+
         return recetaDto;
     }
 
@@ -62,6 +63,10 @@ public class RecetaBl {
         }
         receta.setIngredienteIdIngrediente();
         recetaRepository.save(receta);
+
+        // Registrar un mensaje informativo
+        logger.info("Receta agregada con éxito.");
+
         return recetaDto;
     }
 
@@ -73,12 +78,19 @@ public class RecetaBl {
             RecetaDto recetaEliminada = new RecetaDto();
             recetaEliminada.setId(recetaEliminar.getIdReceta());
             recetaEliminada.setTitle(recetaEliminar.getTitulo());
+
+            // Registrar un mensaje informativo
+            logger.info("Receta eliminada con éxito.");
+
             return recetaEliminada;
-        }else{
+        } else {
+            // Registrar un mensaje de advertencia
+            logger.warn("Intento de eliminar una receta inexistente.");
             return null;
         }
     }
+
+    public Page<Receta> obtenerRecetasPaginadas(Pageable pageable) {
+        return recetaRepository.findAll(pageable);
+    }
 }
-
-
-
