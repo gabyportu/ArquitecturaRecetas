@@ -56,7 +56,7 @@ public class Receta implements Serializable {
         return ingredienteIdIngrediente;
     }
 
-    public void setIngredienteIdIngrediente(Ingrediente ingredienteIdIngrediente) {
+    public void setIngredienteIdIngrediente() {
         this.ingredienteIdIngrediente = ingredienteIdIngrediente;
     }
 

@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.slf4j.Logger;
+import java.util.Optional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,4 +49,36 @@ public class RecetaBl {
         recetaRepository.save(rece);
         return recetaDto;
     }
+
+    public RecetaDto addReceta(RecetaDto recetaDto) {
+        Receta receta = new Receta();
+        receta.setTitulo(recetaDto.getTitle());
+
+        List<Ingrediente> ingredientes = new ArrayList<>();
+        for (IngredienteDto ingredienteDto : recetaDto.getMissedIngredients()) {
+            Ingrediente ingrediente = new Ingrediente();
+            ingrediente.setNombre(ingredienteDto.getName());
+            ingredientes.add(ingrediente);
+        }
+        receta.setIngredienteIdIngrediente();
+        recetaRepository.save(receta);
+        return recetaDto;
+    }
+
+    public RecetaDto eliminarReceta(int idReceta){
+        Optional<Receta> recetaOptional = recetaRepository.findById(idReceta);
+        if(recetaOptional.isPresent()){
+            Receta recetaEliminar = recetaOptional.get();
+            recetaRepository.delete(recetaEliminar);
+            RecetaDto recetaEliminada = new RecetaDto();
+            recetaEliminada.setId(recetaEliminar.getIdReceta());
+            recetaEliminada.setTitle(recetaEliminar.getTitulo());
+            return recetaEliminada;
+        }else{
+            return null;
+        }
+    }
 }
+
+
+

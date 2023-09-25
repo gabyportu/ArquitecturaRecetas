@@ -2,6 +2,8 @@ package com.example.arquiBack.api;
 
 import com.example.arquiBack.bl.RecetaBl;
 import com.example.arquiBack.dto.RecetaDto;
+import com.example.arquiBack.entity.Receta;
+import com.example.arquiBack.repository.RecetaRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -53,9 +55,14 @@ public class RecetaApi {
                 // Convierte el JSON en un array de objetos RecetaDto utilizando Jackson
                 ObjectMapper objectMapper = new ObjectMapper();
                 RecetaDto[] recetas = objectMapper.readValue(response.toString(), RecetaDto[].class);
-                RecetaDto recetaDto = receta.guardarReceta(recetas[0]);
 
-                return ResponseEntity.ok(recetas);
+                //RecetaDto recetaDto = receta.guardarReceta(recetas[0]);
+
+                Receta receta1 = new Receta();
+                receta1.setIngredienteIdIngrediente();
+                receta1.setTitulo(recetas[0].getTitle());
+
+                return ResponseEntity.ok(receta1);
 
             } else {
                 // Manejo de errores aquí
@@ -67,6 +74,26 @@ public class RecetaApi {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Error al realizar la solicitud a la API de Spoonacular.");
+        }
+    }
+    @GetMapping ("/api/v1/receta/add")
+    public ResponseEntity<?> addReceta(){
+        try{
+            RecetaDto recetaDto = new RecetaDto();
+            recetaDto.setId(1);
+            recetaDto.setTitle(" ");
+            recetaDto.setImage("https://spoonacular.com/recipeImages/595736-556x370.jpg");
+            recetaDto.setImageType("jpg");
+            recetaDto.setUsedIngredientCount(1);
+            recetaDto.setMissedIngredientCount(1);
+            recetaDto.setLikes(1);
+            recetaDto.setMissedIngredients(null);
+            recetaDto.setUsedIngredients(null);
+            recetaDto.setUnusedIngredients(null);
+            receta.guardarReceta(recetaDto);
+            return ResponseEntity.ok(recetaDto);
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al guardar la receta");
         }
     }
 }
